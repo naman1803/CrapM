@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SeverityBarChart should render the chart 1`] = `
+<DocumentFragment>
+  <div>
+    <p>
+      ResponsiveContainer
+    </p>
+  </div>
+</DocumentFragment>
+`;

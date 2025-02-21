@@ -1,0 +1,384 @@
+services:
+### isolated services
+  backend-isolated:
+    profiles: 
+      - isolated
+    volumes:
+      - ./backend/src/main/java/:/workspace/app/src/main/java/
+      - ./backend/src/test/:/workspace/app/src/test/
+    build: 
+      context: ./backend
+      target: integration
+      additional_contexts:
+        mocks: ./integrationMocks/
+    environment: 
+      - DB_ADDRESS=jdbc:h2:mem:testdb  # JDBC URL for H2 (in-memory database)
+      - DB_DATABASE=
+      - DB_USER=sa  # Default H2 user
+      - DB_PASSWORD=  # No password for H2 by default
+      - spring.profiles.active=h2
+    ports:
+      - "8080:8080"  # Exposes port 3306 on the host and maps it to port 3306 in the container
+
+  database-isolated:
+    restart: always
+    profiles:
+      - isolated
+    build: 
+      context: ./database
+      additional_contexts:
+        mocks: ./integrationMocks/
+      target: integration
+    environment:
+      - MYSQL_ROOT_PASSWORD=pwd  # The root password for MySQL
+      - MYSQL_DATABASE=crapmap_db  # The database to create when the container starts
+    volumes:
+    - isolated_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "3306:3306"  # Exposes port 3306 on the host and maps it to port 3306 in the container
+    networks: # add networks when needed
+      - isolation-db
+
+  frontend-isolated:  # The React frontend service
+    profiles:
+      - isolated
+    build: 
+      context: ./frontend  # Builds the Docker image from the Dockerfile in the './react' directory
+      additional_contexts:
+        mocks: ./integrationMocks/
+      target: integration
+      args:
+        - BACKEND_PROXY=http://backend:8080  # The URL to the backend Spring service
+    ports:
+      - "3000:3000"  # Exposes port 3000 on the host and maps it to port 3000 in the container
+    environment:  # Environment variable for the React service
+      - BACKEND_PROXY=http://backend:8080  # The URL to the backend Spring service
+    volumes:
+      - ./frontend/src/:/usr/src/app/src/
+      - ./frontend/public/:/usr/src/app/public/
+
+  datafetcher-isolated: #python detafetcher service
+    build:
+      context: ./data-fetcher  # Builds the Docker image from the Dockerfile in the './react' directory
+      target: integration
+    profiles:
+      - isolated
+    environment:  # Environment variables to be used for fastAPI communication
+      - SOCS_API_URL=http://datafetcher-mock-server:8001/api/
+      - SOCS_API_KEY=test_api_key
+      - PYTHONPATH=/code
+    depends_on:
+      - datafetcher-mock-server
+    networks:
+      - isolation-ds
+    volumes:
+      - ./data-fetcher/app/:/code/app/    #create a volume containing the codebase
+      - ./data-fetcher/requirements.txt:/code/requirements.txt  #volume for requirements, used in installation
+      - ./data-fetcher/tests/:/code/tests/
+
+  datafetcher-mock-server:
+    build:
+      context: ./mock-server
+      dockerfile: Dockerfile
+    profiles:
+      - isolated
+      - integration-2
+      - full-stack
+    networks:
+      - isolation-ds
+    ports:
+      - "8001:8001"  # Exposes port for API requests
+
+  phpmyadmin-integration:
+    profiles:
+      - isolated
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 6900:80
+    environment:
+      PMA_HOST: database-isolated
+      MYSQL_ROOT_PASSWORD: pwd
+    networks:
+      - isolation-db
+
+### integrated services 1
+  frontend-integration:  # The React frontend service
+    profiles:
+      - integration-1
+    build: 
+      context: ./frontend  # Builds the Docker image from the Dockerfile in the './react' directory
+      target: integration-exposed
+      additional_contexts:
+        mocks: ./integrationMocks/
+      args:
+        - BACKEND_PROXY=http://backend-integration-frontend:8080  # The URL to the backend Spring service
+    ports:
+      - "3000:3000"  # Exposes port 3000 on the host and maps it to port 3000 in the container
+    environment:  # Environment variable for the React service
+      - BACKEND_PROXY=http://backend-integration-frontend:8080  # The URL to the backend Spring service
+    networks:  # Network the React service is connected to
+      - backend-frontend-p2  # Network for communicating with the backend service
+    volumes:
+      - ./frontend/src/:/usr/src/app/src/
+      - ./frontend/public/:/usr/src/app/public/
+
+  backend-integration-frontend:
+    profiles: 
+      - integration-1
+    volumes:
+      - ./backend/src/main/java/:/workspace/app/src/main/java/
+      - ./backend/src/test/:/workspace/app/src/test/
+    build: 
+      context: ./backend
+      target: integration
+      additional_contexts:
+        mocks: ./integrationMocks/
+    environment: 
+      - DB_ADDRESS=jdbc:h2:mem:testdb  # JDBC URL for H2 (in-memory database)
+      - DB_DATABASE=
+      - DB_USER=sa  # Default H2 user
+      - DB_PASSWORD=  # No password for H2 by default
+      - spring.profiles.active=h2
+    ports:
+      - "8080:8080"  # Exposes port 3306 on the host and maps it to port 3306 in the container
+    networks:
+      - backend-frontend-p2
+
+### integrated services 2
+  datafetcher-integration: #python detafetcher service
+    build:
+      context: ./data-fetcher  # Builds the Docker image from the Dockerfile in the './react' directory
+      target: integration-run
+    profiles:
+      - integration-2
+    environment:  # Environment variables to be used for fastAPI communication
+      - DB_ADDRESS=database-integration-datafetcher  # temp url (fix?)
+      - DB_DATABASE=crapmap_db  # The name of the database to use
+      - DB_USER=root  # The username for the database
+      - DB_PASSWORD=pwd  # The password for the database
+      - SOCS_API_URL=http://datafetcher-mock-server:8001/api/
+      - SOCS_API_KEY=test_api_key
+      - NOMINATIM_OVERRIDE_URL=http://datafetcher-mock-server:8001/nominatim/
+      - PYTHONPATH=/code
+    depends_on:
+      datafetcher-mock-server:
+        condition: service_started
+      database-integration-datafetcher: ## added so that fetcher runs after db init
+      database-integration-datafetcher: ## added so that fetcher runs after db init
+        condition: service_healthy
+    networks:
+      - datafetcher-database-p2
+      - isolation-ds
+    volumes:
+      - ./data-fetcher/app/:/code/app/    #create a volume containing the codebase
+      - ./data-fetcher/requirements.txt:/code/requirements.txt  #volume for requirements, used in installation
+      - ./data-fetcher/tests/:/code/tests/
+
+  database-integration-datafetcher:
+    restart: always
+    profiles:
+      - integration-2
+    build: 
+      context: ./database
+      additional_contexts:
+        mocks: ./integrationMocks/
+      target: integration-empty
+    environment:
+      - MYSQL_ROOT_PASSWORD=pwd  # The root password for MySQL
+      - MYSQL_DATABASE=crapmap_db  # The database to create when the container starts
+    volumes:
+    - integration_db_datafetcher_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "3306:3306"  # Exposes port 3306 on the host and maps it to port 3306 in the container
+    networks: # add networks when needed
+      - datafetcher-database-p2
+
+  phpmyadmin-integration-2:
+    profiles:
+      - integration-2
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 6900:80
+    environment:
+      PMA_HOST: database-integration-datafetcher
+      MYSQL_ROOT_PASSWORD: pwd
+    networks:
+      - datafetcher-database-p2
+
+### integrated services 3
+  backend-integration-database:
+    profiles: 
+      - integration-3
+    volumes:
+      - ./backend/src/:/workspace/app/src/
+    build: 
+      context: ./backend
+      target: development
+    #Environment Variables: These are passed to the container at runtime. For example, DB_ADDRESS is set to jdbc:mysql://mysql:3306, indicating the application should connect to a MySQL database at the given JDBC URL.
+    environment:  # Environment variables for the Spring application
+      - DB_ADDRESS=jdbc:mysql://database-integration-backend:3306  # JDBC URL for the MySQL database, 'mysql' is the service name in docker-compose
+      - DB_DATABASE=crapmap_db  # The name of the database to use
+      - DB_USER=root  # The username for the database
+      - DB_PASSWORD=pwd  # The password for the database
+    networks: # add networks when needed
+      - backend-database-p2
+    ports:
+      - "8080:8080"  # Exposes port 8080 on the host and maps it to port 8080 in the container
+  
+  database-integration-backend:
+    restart: always
+    profiles:
+      - integration-3
+    build: 
+      context: ./database
+      additional_contexts:
+        mocks: ./integrationMocks/
+      target: integration
+    environment:
+      - MYSQL_ROOT_PASSWORD=pwd  # The root password for MySQL
+      - MYSQL_DATABASE=crapmap_db  # The database to create when the container starts
+    volumes:
+    - inetgration_db_backend_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "3306:3306"  # Exposes port 3306 on the host and maps it to port 3306 in the container
+    networks: # add networks when needed
+      - backend-database-p2
+
+  phpmyadmin-integration-3:
+    profiles:
+      - integration-3
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 6900:80
+    environment:
+      PMA_HOST: database-integration-backend
+      MYSQL_ROOT_PASSWORD: pwd
+    networks:
+      - backend-database-p2
+
+### fullstack integration
+
+  frontend-integration-full:  # The React frontend service
+    profiles:
+      - full-stack
+    build: 
+      context: ./frontend  # Builds the Docker image from the Dockerfile in the './react' directory
+      target: integration-full-stack
+      additional_contexts:
+        mocks: ./integrationMocks/
+      args:
+        - BACKEND_PROXY=http://backend-integration-full:8080  # The URL to the backend Spring service
+    ports:
+      - "3000:3000"  # Exposes port 3000 on the host and maps it to port 3000 in the container
+    environment:  # Environment variable for the React service
+      - BACKEND_PROXY=http://backend-integration-full:8080  # The URL to the backend Spring service
+    networks:  # Network the React service is connected to
+      - backend-frontend-full  # Network for communicating with the backend service
+    volumes:
+      - ./frontend/src/:/usr/src/app/src/
+      - ./frontend/public/:/usr/src/app/public/
+
+  backend-integration-full:
+    profiles: 
+      - full-stack
+    volumes:
+      - ./backend/src/:/workspace/app/src/
+    build: 
+      context: ./backend
+      target: development
+    #Environment Variables: These are passed to the container at runtime. For example, DB_ADDRESS is set to jdbc:mysql://mysql:3306, indicating the application should connect to a MySQL database at the given JDBC URL.
+    environment:  # Environment variables for the Spring application
+      - DB_ADDRESS=jdbc:mysql://database-integration-full:3306  # JDBC URL for the MySQL database, 'mysql' is the service name in docker-compose
+      - DB_DATABASE=crapmap_db  # The name of the database to use
+      - DB_USER=root  # The username for the database
+      - DB_PASSWORD=pwd  # The password for the database
+    networks: # add networks when needed
+      - database-full
+      - backend-frontend-full
+    ports:
+      - "8080:8080"  # Exposes port 8080 on the host and maps it to port 8080 in the container
+
+  database-integration-full:
+    restart: always
+    profiles:
+      - full-stack
+    build: 
+      context: ./database
+      additional_contexts:
+        mocks: ./integrationMocks/
+      target: integration-empty
+    environment:
+      - MYSQL_ROOT_PASSWORD=pwd  # The root password for MySQL
+      - MYSQL_DATABASE=crapmap_db  # The database to create when the container starts
+    volumes:
+      - integration_full:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "3306:3306"  # Exposes port 3306 on the host and maps it to port 3306 in the container
+    networks: # add networks when needed
+      - database-full
+
+  datafetcher-integration-full: #python detafetcher service
+    build:
+      context: ./data-fetcher  # Builds the Docker image from the Dockerfile in the './react' directory
+      target: integration-run
+    profiles:
+      - full-stack
+    environment:  # Environment variables to be used for fastAPI communication
+      - DB_ADDRESS=database-integration-full  # temp url (fix?)
+      - DB_DATABASE=crapmap_db  # The name of the database to use
+      - DB_USER=root  # The username for the database
+      - DB_PASSWORD=pwd  # The password for the database
+      - SOCS_API_URL=http://datafetcher-mock-server:8001/api/
+      - SOCS_API_KEY=test_api_key
+      - NOMINATIM_OVERRIDE_URL=http://datafetcher-mock-server:8001/nominatim/
+      - PYTHONPATH=/code
+    depends_on:
+      datafetcher-mock-server:
+        condition: service_started
+      database-integration-full: ## added so that fetcher runs after db init
+        condition: service_healthy
+    networks:
+      - database-full
+      - isolation-ds
+
+volumes:
+  isolated_db_data: #volume to work with mock database
+  integration_db_datafetcher_data:
+  inetgration_db_backend_data:
+  integration_full:
+
+networks:
+  isolation-db:
+  isolation-ds:
+  backend-frontend-p2:
+  datafetcher-database-p2:
+  backend-database-p2:
+  backend-frontend-full:
+  database-full:

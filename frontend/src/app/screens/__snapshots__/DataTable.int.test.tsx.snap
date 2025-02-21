@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTable renders the data table with the data 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthLg css-5c1adp-MuiContainer-root"
+  >
+    <h1
+      class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom css-1it4a80-MuiTypography-root"
+    >
+      Sewage Data Overview
+    </h1>
+    <div
+      class="MuiContainer-root MuiContainer-maxWidthLg css-5c1adp-MuiContainer-root"
+    >
+      <h1
+        class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom css-1it4a80-MuiTypography-root"
+      >
+        Industrial Sewage Data Overview
+      </h1>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-m0q9o2-MuiPaper-root-MuiTableContainer-root"
+        style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12); --Paper-overlay: linear-gradient(rgba(255, 255, 255, 0.051), rgba(255, 255, 255, 0.051));"
+      >
+        <table
+          class="MuiTable-root css-15y9i9h-MuiTable-root"
+        >
+          <thead
+            class="MuiTableHead-root css-1a7iywq-MuiTableHead-root"
+          >
+            <tr
+              class="MuiTableRow-root MuiTableRow-head css-2o0037-MuiTableRow-root"
+            >
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                ID
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Facility Owner
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Site Address
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Contaminant
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Type of Exceedance
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Exceedance Start Date
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Exceedance End Date
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Contaminant Limit
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Contaminant Unit
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Limit Frequency
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                No. of Exceedances
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Quantity Maximum
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-nlw0ug-MuiTableCell-root"
+                scope="col"
+              >
+                Quantity Minimum
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
+          />
+        </table>
+      </div>
+    </div>
+  </div>
+  <div
+    data-testid="location-display"
+  >
+    /datatable
+  </div>
+</DocumentFragment>
+`;

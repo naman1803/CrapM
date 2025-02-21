@@ -1,0 +1,1 @@
+0 0 * * * python3 /usr/src/crap_fetcher.py >> /var/log/cron.log 2>> /var/log/cron.error.log

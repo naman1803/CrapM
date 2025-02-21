@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChartFrame should render the chart 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-md-6 css-1odx5a8-MuiGrid2-root"
+  >
+    <div
+      class="MuiBox-root css-1pnkh5u"
+    >
+      <div
+        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-w3fsr2-MuiGrid2-root"
+      />
+      <div
+        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1e8ggq8-MuiGrid2-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-tckkrt-MuiTypography-root"
+        >
+          Hello World
+        </p>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

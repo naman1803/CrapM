@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard should render the Dashboard 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-fe63hs"
+  >
+    <div
+      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-2 css-1fph5u6-MuiGrid2-root"
+    >
+      <div
+        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
+      >
+        <div
+          class="MuiBox-root css-1vin698"
+        >
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-1niuvds-MuiTypography-root"
+          >
+            Analytics
+          </h5>
+        </div>
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-x148m1-MuiDivider-root"
+        />
+      </div>
+      <div
+        class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1x0rc6b-MuiGrid2-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-tckkrt-MuiTypography-root"
+        >
+          Hello World
+        </p>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

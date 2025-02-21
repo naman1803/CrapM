@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Map should render the map 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-j7qwjs"
+  >
+    <div>
+      <p>
+        Map Container
+      </p>
+      <div>
+        <p>
+          TileLayer
+        </p>
+      </div>
+      <div>
+        <p>
+          Marker-0,0
+        </p>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

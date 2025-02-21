@@ -1,0 +1,10 @@
+pydantic>=2.7.0,<3.0.0
+requests>=2.3
+mysql-connector-python>=9.0.0
+fastapi
+uvicorn
+starlette
+pytest
+httpx
+pytest-mock
+mock

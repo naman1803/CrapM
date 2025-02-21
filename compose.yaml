@@ -1,0 +1,139 @@
+#All services that are apart of the application
+services:
+  backend:
+    volumes:
+      - ./backend/src/:/workspace/app/src/
+    build: 
+      context: ./backend
+      target: development
+    #Environment Variables: These are passed to the container at runtime. For example, DB_ADDRESS is set to jdbc:mysql://mysql:3306, indicating the application should connect to a MySQL database at the given JDBC URL.
+    environment:  # Environment variables for the Spring application
+      - DB_ADDRESS=jdbc:mysql://database:3306  # JDBC URL for the MySQL database, 'mysql' is the service name in docker-compose
+      - DB_DATABASE=crapmap_db  # The name of the database to use
+      - DB_USER=root  # The username for the database
+      - DB_PASSWORD=pwd  # The password for the database
+    networks: # add networks when needed
+      - backend-database
+      - backend-frontend
+    ports:
+      - "8080:8080"  # Exposes port 8080 on the host and maps it to port 8080 in the container
+  
+
+  database:
+    build: 
+      context: ./database
+      target: development
+    #Environment Variables: Used to configure the MySQL server, like setting the root password (MYSQL_ROOT_PASSWORD) and specifying the database to create at startup (MYSQL_DATABASE).
+    environment:  # Environment variables for the MySQL service
+      - MYSQL_ROOT_PASSWORD=pwd  # The root password for MySQL
+      - MYSQL_DATABASE=crapmap_db  # The database to create when the container starts
+    #Volumes: volumes: - mariadb_data:/var/lib/mysql mounts the named volume mariadb_data to /var/lib/mysql inside the container, providing persistent storage for the database.
+    volumes:  # Persistent storage for the MySQL database
+      - mariadb_data:/var/lib/mysql  # Maps 'mariadb_data' volume to the data directory of MySQL
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "3306:3306"  # Exposes port 3306 on the host and maps it to port 3306 in the container
+    # networks: # add networks when needed
+    networks:
+      - backend-database
+      - datafetcher-database
+  
+
+  frontend:  # The React frontend service
+    build: 
+      context: ./frontend  # Builds the Docker image from the Dockerfile in the './react' directory
+      target: development
+      args:
+        - BACKEND_PROXY=http://backend:8080  # The URL to the backend Spring service
+    ports:
+      - "3000:3000"  # Exposes port 3000 on the host and maps it to port 3000 in the container
+    environment:  # Environment variable for the React service
+      - BACKEND_PROXY=http://backend:8080  # The URL to the backend Spring service
+    networks:  # Network the React service is connected to
+      - backend-frontend  # Network for communicating with the backend service
+    volumes:
+      - ./frontend/src/:/usr/src/app/src/
+      - ./frontend/public/:/usr/src/app/public/
+
+  datafetcher: #python detafetcher service
+    build: 
+     context: ./data-fetcher
+     target: development
+    profiles:
+      - datafetch
+    environment:  # Environment variables to be used for fastAPI communication
+      - DB_ADDRESS=database  # temp url (fix?)
+      - DB_DATABASE=crapmap_db  # The name of the database to use
+      - DB_USER=root  # The username for the database
+      - DB_PASSWORD=pwd  # The password for the database
+      - SOCS_API_URL=https://cis-data-service.socs.uoguelph.ca/data/ # The socs data service api url
+      - SOCS_API_KEY=YTrifwieYNiAK9ydUiOrvuh1PBZVbIvfiy77vDbQyi9V4ucWh-UK4w # The socs data service api key
+      - PYTHONPATH=/code
+    depends_on:
+      database: ## added so that fetcher runs after db init
+        condition: service_healthy
+    networks:
+      - datafetcher-database
+    volumes:
+      - ./data-fetcher/app/:/code/app/    #create a volume containing the codebase
+      - ./data-fetcher/requirements.txt:/code/requirements.txt  #volume for requirements, used in installation
+      - ./data-fetcher/tests/:/tests/
+
+  datafetcher-testing: #python detafetcher service
+    build:
+      context: ./data-fetcher  # Builds the Docker image from the Dockerfile in the './react' directory
+      target: integration
+    profiles:
+      - integration
+    environment:  # Environment variables to be used for fastAPI communication
+      - SOCS_API_URL=http://mock_server:8001/api/
+      - SOCS_API_KEY=test_api_key
+      - PYTHONPATH=/code
+    depends_on:
+      - mock-server
+    networks:
+      - datafetcher-database
+    volumes:
+      - ./data-fetcher/app/:/code/app/    #create a volume containing the codebase
+      - ./data-fetcher/requirements.txt:/code/requirements.txt  #volume for requirements, used in installation
+      - ./data-fetcher/tests/:/tests/
+
+
+  mock-server:
+    build:
+      context: ./mock-server
+      dockerfile: Dockerfile
+    profiles:
+      - integration
+    networks:
+      - datafetcher-database
+    ports:
+      - "8001:8001"  # Exposes port for API requests
+
+  phpmyadmin:
+    profiles:
+      - dbview
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 6900:80
+    environment:
+      PMA_HOST: database
+      MYSQL_ROOT_PASSWORD: pwd
+    networks:
+      - datafetcher-database
+
+
+
+volumes:
+  mariadb_data: #persistent volume to store the mariadb database
+
+networks:  # Defines the networks used by the services
+  backend-database: 
+  backend-frontend:
+  datafetcher-database: # Network between datafetcher and database

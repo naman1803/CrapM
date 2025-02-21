@@ -1,0 +1,207 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RankingChart should render the chart 1`] = `
+<DocumentFragment>
+  <div>
+    <p>
+      ResponsiveContainer
+    </p>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-tckkrt-MuiTypography-root"
+      >
+        Hello World
+      </p>
+      <div
+        class="MuiTableContainer-root MuiBox-root css-cwly5v-MuiTableContainer-root"
+      >
+        <table
+          aria-label="collapsible table"
+          class="MuiTable-root MuiTable-stickyHeader css-1q0iqtv-MuiTable-root"
+        >
+          <thead
+            class="MuiTableHead-root css-1a7iywq-MuiTableHead-root"
+          >
+            <tr
+              class="MuiTableRow-root MuiTableRow-head css-2o0037-MuiTableRow-root"
+            >
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-7owr83-MuiTableCell-root"
+                scope="col"
+              >
+                Rank
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-7owr83-MuiTableCell-root"
+                scope="col"
+              >
+                Facility Owner
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
+          >
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                1
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                Central Railways Inc.
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1tbxb7l-MuiTableCell-root"
+                colspan="2"
+              />
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                2
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                Green Valley Utilities
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1tbxb7l-MuiTableCell-root"
+                colspan="2"
+              />
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                3
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                Northland Waterworks Ltd
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1tbxb7l-MuiTableCell-root"
+                colspan="2"
+              />
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                4
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                Pacific Maritime LLC
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1tbxb7l-MuiTableCell-root"
+                colspan="2"
+              />
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                5
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                Southern Logistics Co.
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1tbxb7l-MuiTableCell-root"
+                colspan="2"
+              />
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                6
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                Eastern Transit Solutions
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1tbxb7l-MuiTableCell-root"
+                colspan="2"
+              />
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                7
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ltj5m4-MuiTableCell-root"
+              >
+                Western Cargo Group
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root css-2o0037-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1tbxb7l-MuiTableCell-root"
+                colspan="2"
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

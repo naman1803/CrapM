@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Reversi</title>
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Leckerli+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/fixedsys-css/css/fixedsys.css">
+    <link rel="stylesheet" type="text/css" href="rev.css">
+    <script>
+        var beep = new Audio();
+        var place = new Audio();
+        var invalid = new Audio();
+        beep.src = "audio/button-21.mp3";
+        place.src = "audio/button-16.mp3"
+        invalid.src = "audio/button-24.mp3"
+    </script>
+
+</head>
+<body>
+
+        <div class="blue-banner"><p>Reversi</p></div>
+        <div class="yellow-banner"><p>Game       Skill</p></div>
+          <div class="main-container">
+            <div class="main-page-container">
+                <button class="selections" onmousedown="beep.play()" id="single-player">Single Player</button>
+                <button class="selections" onmousedown="beep.play()" id="2-players">2 Players</button>
+            </div>
+
+        </div>
+
+
+        <div class="score-container">
+            <div class="score-inner-container">
+                <div class="name" id="player-name">AI - Black</div>
+                <div class="tile-container">
+                    <div class="glow" id="glow-1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+                    <div class="score-tile score-black">
+                        <div class="score" id="black-score">2</div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="score-inner-container">
+                <div class="name" id="bot-name">AI - White</div>
+                <div class="tile-container">
+                    <div class="glow" id="glow-2">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+                    <div class="score-tile score-white">
+                        <div class="score" id="white-score">2</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="dark-shroud">
+            <div class="win-lose-draw">You Win!</div>
+            <div class="result-container">
+                <button class="name result-selections" id="stay" onmousedown="beep.play()" onclick="takeOffShroud()">Stay</button>
+                <button class="name result-selections" id="restart" onmousedown="beep.play()" onclick="restart()">Restart</button>
+                <button class="name result-selections" id="menu" onmousedown="beep.play()" onclick="initAllBackToMainPage()">Menu</button>
+            </div>
+
+        </div>
+        <img onmousedown="beep.play()" class= "settings" src="" onclick="takeOutSettings()">
+
+        <script type="text/javascript" src="revScript.js"></script>
+    </body>
+    </html>

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SeverityDot renders correctly with severity level "Critical" 1`] = `
+<DocumentFragment>
+  <img
+    height="40"
+    href="https://bluemoji.io/cdn-proxy/646218c67da47160c64a84d5/66b3e5760608f3f68cb0b04b_93.png"
+    width="40"
+    x="30"
+    y="30"
+  />
+</DocumentFragment>
+`;
+
+exports[`SeverityDot renders correctly with severity level "High" 1`] = `
+<DocumentFragment>
+  <img
+    height="40"
+    href="https://bluemoji.io/cdn-proxy/646218c67da47160c64a84d5/66b3e67f60bd0c05aa29a1d6_70.png"
+    width="40"
+    x="30"
+    y="30"
+  />
+</DocumentFragment>
+`;
+
+exports[`SeverityDot renders correctly with severity level "Low" 1`] = `
+<DocumentFragment>
+  <img
+    height="40"
+    href="https://bluemoji.io/cdn-proxy/646218c67da47160c64a84d5/66b3e5d0c2ab246786ca1d5e_86.png"
+    width="40"
+    x="30"
+    y="30"
+  />
+</DocumentFragment>
+`;
+
+exports[`SeverityDot renders correctly with severity level "Moderate" 1`] = `
+<DocumentFragment>
+  <img
+    height="40"
+    href="https://bluemoji.io/cdn-proxy/646218c67da47160c64a84d5/66b3e58bf4a1d9b1b453e5df_91.png"
+    width="40"
+    x="30"
+    y="30"
+  />
+</DocumentFragment>
+`;
