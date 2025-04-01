@@ -50,3 +50,7 @@ The primary objective of CrapMap is to develop and deploy a functional prototype
 - **Custom Filtering**: Filters for pollutant type, location, and time period to focus on specific concerns.
 
 - **Favorites and Highlights**: Users can favourite lakes or regions to easily access pollution data relevant to them. 
+
+### System Architecture 
+
+<img width="1035" alt="Screenshot 2025-04-01 at 7 42 24 PM" src="https://github.com/user-attachments/assets/db0c40b8-91da-4788-9197-d4bc28160d15" />
