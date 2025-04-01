@@ -54,3 +54,13 @@ The primary objective of CrapMap is to develop and deploy a functional prototype
 ### System Architecture 
 
 <img width="1035" alt="Screenshot 2025-04-01 at 7 42 24 PM" src="https://github.com/user-attachments/assets/db0c40b8-91da-4788-9197-d4bc28160d15" />
+
+### Visualizations 
+
+![ranking_crap](https://github.com/user-attachments/assets/c7331163-e30d-40ac-8b8f-7a9cdc9c1a25)
+<img width="703" alt="Screenshot_2024-10-31_at_4 25 12_PM" src="https://github.com/user-attachments/assets/6566aaaa-6ba7-4d68-ab27-dff3324303d4" />
+<img width="1437" alt="Screenshot_2024-10-31_at_7 21 14_PM" src="https://github.com/user-attachments/assets/be8d84af-f79e-45bc-8b8e-0570a4a55453" />
+![severity_score_bar](https://github.com/user-attachments/assets/7397c467-0770-457c-a073-200b1c631f38)
+
+
+
